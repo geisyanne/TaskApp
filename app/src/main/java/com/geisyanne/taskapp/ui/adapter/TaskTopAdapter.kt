@@ -10,7 +10,7 @@ import com.geisyanne.taskapp.databinding.ItemTaskTopBinding
 
 class TaskTopAdapter(
     private val taskTopSelected: (Task, Int) -> Unit
-) : ListAdapter<Task, TaskTopAdapter.TaskViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<Task, TaskTopAdapter.TaskTopViewHolder>(DIFF_CALLBACK) {
 
     // EVENTOS DE CLICK
     companion object {
@@ -29,8 +29,8 @@ class TaskTopAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        return TaskViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskTopViewHolder {
+        return TaskTopViewHolder(
             ItemTaskTopBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -39,7 +39,7 @@ class TaskTopAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TaskTopViewHolder, position: Int) {
         val task = getItem(position)
 
         holder.binding.txtDescriptionTask.text = task.description
@@ -49,7 +49,7 @@ class TaskTopAdapter(
         holder.binding.btnDetailsTask.setOnClickListener { taskTopSelected(task, SELECT_DETAILS) }
     }
 
-    inner class TaskViewHolder(val binding: ItemTaskTopBinding) :
+    inner class TaskTopViewHolder(val binding: ItemTaskTopBinding) :
         RecyclerView.ViewHolder(binding.root)
 
 }
