@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.geisyanne.taskapp.R
 import com.geisyanne.taskapp.databinding.FragmentLoginBinding
+import com.geisyanne.taskapp.ui.BaseFragment
+import com.geisyanne.taskapp.util.FirebaseHelper
+import com.geisyanne.taskapp.util.NetworkUtils
 import com.geisyanne.taskapp.util.showBottomSheet
 
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
@@ -28,6 +31,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        NetworkUtils.showBottomSheetNoInternet(this)
         initListeners()
     }
 
@@ -52,13 +56,32 @@ class LoginFragment : Fragment() {
 
         if (email.isNotEmpty()) {
             if (password.isNotEmpty()) {
-                findNavController().navigate(R.id.action_global_homeFragment)
+
+                hideKeyboard()
+
+                binding.progressLogin.isVisible = true
+                loginUser(email, password)
+
             } else {
                 showBottomSheet(message = getString(R.string.enter_password_login))
             }
         } else {
             showBottomSheet(message = getString(R.string.enter_email_login))
         }
+    }
+
+    private fun loginUser(email: String, password: String) {
+        FirebaseHelper.getAuth().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    findNavController().navigate(R.id.action_global_homeFragment)
+                } else {
+                    binding.progressLogin.isVisible = false
+                    showBottomSheet(
+                        message = getString(FirebaseHelper.validError(task.exception?.message.toString()))
+                    )
+                }
+            }
     }
 
     override fun onDestroyView() {

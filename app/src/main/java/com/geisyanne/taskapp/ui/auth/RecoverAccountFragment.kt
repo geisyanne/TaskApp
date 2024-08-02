@@ -1,17 +1,19 @@
 package com.geisyanne.taskapp.ui.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.geisyanne.taskapp.R
 import com.geisyanne.taskapp.databinding.FragmentRecoverAccountBinding
+import com.geisyanne.taskapp.ui.BaseFragment
+import com.geisyanne.taskapp.util.FirebaseHelper
 import com.geisyanne.taskapp.util.initToolbar
 import com.geisyanne.taskapp.util.showBottomSheet
 
-class RecoverAccountFragment : Fragment() {
+class RecoverAccountFragment : BaseFragment() {
 
     private var _binding: FragmentRecoverAccountBinding? = null
     private val binding get() = _binding!!
@@ -41,11 +43,29 @@ class RecoverAccountFragment : Fragment() {
         val email = binding.edtEmailRecover.text.toString().trim()
 
         if (email.isNotEmpty()) {
-            Toast.makeText(requireContext(), "Tudo OK", Toast.LENGTH_SHORT).show()
+            hideKeyboard()
+            binding.progressRecover.isVisible = true
+            recoverAccountUser(email)
         } else {
             showBottomSheet(message = getString(R.string.enter_email_valid))
-
         }
+    }
+
+    private fun recoverAccountUser(email: String) {
+        FirebaseHelper.getAuth().sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                binding.progressRecover.isVisible = false
+
+                if (task.isSuccessful) {
+                    showBottomSheet(
+                        message = getString(R.string.msg_recover_account),
+                    )
+                } else {
+                    showBottomSheet(
+                        message = getString(FirebaseHelper.validError(task.exception?.message.toString()))
+                    )
+                }
+            }
     }
 
     override fun onDestroyView() {

@@ -10,12 +10,15 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.geisyanne.taskapp.R
 import com.geisyanne.taskapp.databinding.FragmentSplashBinding
+import com.geisyanne.taskapp.util.FirebaseHelper
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class SplashFragment : Fragment() {
 
     private var _binding: FragmentSplashBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +35,12 @@ class SplashFragment : Fragment() {
     }
 
     private fun checkAuth() {
-        findNavController().navigate(R.id.action_splashFragment_to_authentication)
+        val currentUser = FirebaseHelper.getAuth().currentUser
+        if (currentUser != null) {
+            findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+        } else {
+            findNavController().navigate(R.id.action_splashFragment_to_authentication)
+        }
     }
 
     override fun onDestroyView() {

@@ -32,6 +32,12 @@
     <string name="enter_password_register">Insira uma senha</string>
     <string name="enter_description">Insira a descrição da tarefa</string>
 
+    <!-- Errors Firebase Authentication -->
+    <string name="invalid_credentials">Credenciais inválidas. Verifique seu email e senha e tente novamente"</string>
+    <string name="invalid_email_register">Insira um e-mail válido</string>
+    <string name="email_in_use">Este e-mail já está em uso</string>
+    <string name="strong_password_register">Insira uma senha mais forte</string>
+
     <!-- Custom Bottom Sheet -->
     <string name="attention">Atenção</string>
     <string name="message">Mensagem</string>
@@ -39,6 +45,26 @@
     <string name="remove">Remover</string>
     <string name="edit">Editar</string>
     <string name="details">Detalhes</string>
+    <string name="logout_account">Deseja sair da sua conta?</string>
+    <string name="confirm">Confirmar</string>
+    <string name="msg_logout">Aperte em confirmar para sair da sua conta</string>
+    <string name="msg_logout_2"> </string>
+    <string name="msg_recover_account">Um link foi enviado para o seu e-mail.</string>
+    <string name="title_delete_task">Deseja remover esta tarefa?</string>
+    <string name="msg_delete_task">Aperte em confirmar para remover a tarefa.</string>
+
+    <string name="error_generic">Ocorreu um erro. Tente novamente mais tarde.</string>
+
+    <string name="task_saved">Tarefa salva com sucesso</string>
+    <string name="task_updated">Tarefa atualizada com sucesso</string>
+    <string name="task_empty">Nenhuma tarefa cadastrada</string>
+    <string name="task_loading">Aguarde, estamos carregando as informações</string>
+    <string name="task_delete">Tarefa removida com sucesso</string>
+    <string name="task_edit">Editar tarefa</string>
+    <string name="task_status_change_todo">A tarefa mudou para o status: A fazer</string>
+    <string name="task_status_change_doing">A tarefa mudou para o status: Fazendo</string>
+    <string name="task_status_change_done">A tarefa mudou para o status: Feita</string>
+    <string name="msg_no_internet">Sem conexão com internet</string>
 
 
 </resources>
